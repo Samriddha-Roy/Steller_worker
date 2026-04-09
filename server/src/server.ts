@@ -23,8 +23,12 @@ async function start() {
       console.log(`💳 Pay routes:   http://localhost:${PORT}/api/pay`);
       console.log(`\n📡 System: Running in API-only mode (Standalone Worker required)\n`);
     });
-  } catch (error) {
-    console.error('[Server] Failed to start:', error);
+  } catch (error: any) {
+    console.error('\n❌ [Server] Failed to start!');
+    console.error(`Reason: ${error.message}`);
+    if (error.message.includes('Can\'t reach database server')) {
+      console.error('💡 Tip: Check if your DATABASE_URL allows connections from Render\'s IP range or if SSL is required.');
+    }
     process.exit(1);
   }
 }

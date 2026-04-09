@@ -15,9 +15,14 @@ const envSchema = z.object({
 const envParsed = envSchema.safeParse(process.env);
 
 if (!envParsed.success) {
-  console.error("Invalid environment variables");
-  console.error(envParsed.error.flatten().fieldErrors);
-  throw new Error('Invalid environment variables');
+  console.error("❌ Invalid environment variables:");
+  const fieldErrors = envParsed.error.flatten().fieldErrors;
+  
+  for (const [field, errors] of Object.entries(fieldErrors)) {
+    console.error(`   - ${field}: ${errors?.join(', ')}`);
+  }
+  
+  throw new Error('Invalid environment variables. Please check your Render dashboard.');
 }
 
 export const env = envParsed.data;
