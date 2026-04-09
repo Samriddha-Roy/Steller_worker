@@ -26,7 +26,9 @@ import {
 import PaymentModal from '@/components/PaymentModal';
 import Link from 'next/link';
 
-export default function DashboardPage() {
+import { Suspense } from 'react';
+
+function DashboardContent() {
   const { user, isLoading: isAuthLoading } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -213,6 +215,14 @@ export default function DashboardPage() {
         }}
       />
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <DashboardContent />
+    </Suspense>
   );
 }
 
