@@ -1,0 +1,26 @@
+{
+  "target": "google/guava",
+  "type": "github",
+  "timestamp": "2026-04-09T10:43:14.369Z",
+  "rawOutput": "[Semgrep Analysis Report for google/guava]\nVulnerability 1: Hardcoded secret (AWS_ACCESS_KEY) found in src/config/aws.js:14\nVulnerability 2: Broken Access Control - No auth middleware on /admin/delete-user endpoint\nVulnerability 3: Potential RCE - Unvalidated input in child_process.exec() at src/utils/shell.ts:42\nVulnerability 4: Dependency check - Found outdated library 'minimist' with known prototype pollution.",
+  "aiAnalysis": {
+    "vulnerabilities": [
+      {
+        "name": "Mock XSS",
+        "description": "Reflected XSS found.",
+        "severity": "high"
+      }
+    ],
+    "overallSeverity": "high",
+    "aiSuggestions": [
+      "Sanitize all user inputs"
+    ],
+    "fixes": [
+      {
+        "vulnerabilityName": "Mock XSS",
+        "fixDescription": "Use DOMPurify.",
+        "codeSnippet": "const clean = DOMPurify.sanitize(input);"
+      }
+    ]
+  }
+}

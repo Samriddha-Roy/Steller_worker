@@ -1,0 +1,22 @@
+# Dependencies
+**/node_modules
+**/dist
+**/.next
+**/out
+
+# Environment variables (CRITICAL: DO NOT REMOVE)
+**/.env
+**/.env.local
+**/.env.production
+
+# IDEs
+.vscode
+.idea
+
+# DB / Prisma
+**/prisma/migrations
+**/prisma/dev.db
+
+# OS
+.DS_Store
+Thumbs.db

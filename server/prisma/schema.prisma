@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  password     String
+  balance      Float         @default(0) // Initial balance
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  wallets      Wallet[]
+  transactions Transaction[]
+  scans        Scan[]
+}
+
+model Wallet {
+  id         String   @id @default(uuid())
+  userId     String   @unique
+  user       User     @relation(fields: [userId], references: [id])
+  publicKey  String   @unique
+  secretKey  String   // In a real app, encrypt this. Mocking for now.
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Transaction {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  scanId     String?
+  amount     Float
+  status     String   // "success", "failed", "pending"
+  createdAt  DateTime @default(now())
+}
+
+model Scan {
+  id            String      @id @default(uuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  type          String      // "url" | "github"
+  target        String      // URL or repo name
+  status        String      // "pending", "running", "completed", "failed"
+  paymentStatus String      // "paid", "unpaid"
+  cost          Float       @default(0)
+  result        ScanResult?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model ScanResult {
+  id              String   @id @default(uuid())
+  scanId          String   @unique
+  scan            Scan     @relation(fields: [scanId], references: [id])
+  rawOutput       String?
+  vulnerabilities Json?
+  severity        String?
+  aiSuggestions   Json?
+  fixes           Json?
+  createdAt       DateTime @default(now())
+}

@@ -1,0 +1,26 @@
+{
+  "target": "https://github.com/Samriddha-Roy/portfolio",
+  "type": "url",
+  "timestamp": "2026-04-09T11:53:25.302Z",
+  "rawOutput": "[OWASP ZAP Dynamic Scan Report for https://github.com/Samriddha-Roy/portfolio]\nAlert 1: SQL Injection found on parameter 'id' at /api/products/details\nAlert 2: Cross-Site Scripting (Reflected) on search parameter 'q'\nAlert 3: Missing Security Headers - X-Frame-Options, CSP not set\nAlert 4: Insecure Cookie - 'session' cookie missing Secure and HttpOnly flags.",
+  "aiAnalysis": {
+    "vulnerabilities": [
+      {
+        "name": "Mock XSS",
+        "description": "Reflected XSS found.",
+        "severity": "high"
+      }
+    ],
+    "overallSeverity": "high",
+    "aiSuggestions": [
+      "Sanitize all user inputs"
+    ],
+    "fixes": [
+      {
+        "vulnerabilityName": "Mock XSS",
+        "fixDescription": "Use DOMPurify.",
+        "codeSnippet": "const clean = DOMPurify.sanitize(input);"
+      }
+    ]
+  }
+}
