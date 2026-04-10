@@ -1,9 +1,7 @@
 import { Worker } from 'bullmq';
 import { redis } from './config/redis';
 import { processScan } from './jobs/scan.job';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import './config/env'; // Ensure env vars are validated
 
 console.log(`
 ╔══════════════════════════════════════════════╗

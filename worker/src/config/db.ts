@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import dotenv from 'dotenv';
-dotenv.config();
+import './env'; // Ensure env vars are validated
 
 export const prisma = new PrismaClient();
