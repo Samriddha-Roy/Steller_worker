@@ -25,11 +25,6 @@ export class AiAnalysisService {
       Keep descriptions concise and technical.
     `;
 
-    if (env.OPENAI_API_KEY === 'MISSING_KEY_MOCK_MODE') {
-      console.log(`[AI] No API key found. Returning mock results for ${target}...`);
-      return this.getFallbackAnalysis(tool, target);
-    }
-
     try {
       const response = await openai.chat.completions.create({
         model: 'gpt-4o-mini',

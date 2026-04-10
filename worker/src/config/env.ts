@@ -6,7 +6,7 @@ dotenv.config();
 const envSchema = z.object({
   DATABASE_URL: z.string(),
   REDIS_URL: z.string(),
-  OPENAI_API_KEY: z.string().optional().default('MISSING_KEY_MOCK_MODE'),
+  OPENAI_API_KEY: z.string(),
 });
 
 // Pre-process env variables to remove literal quotes if they were pasted accidentally (e.g. on Render)
@@ -32,12 +32,8 @@ if (!envParsed.success) {
   console.log("\n📡 Debug: Available Environment Variable Keys in this process:");
   console.log(availableKeys.join(', '));
   
-  throw new Error('Missing DATABASE_URL or REDIS_URL. Service cannot start.');
+  console.error("\n💡 Tip: If 'OPENAI_API_KEY' is not in the list above, it is NOT set in Render's 'Environment' tab for this specific service.");
+  throw new Error('Invalid environment variables. Service cannot start.');
 }
 
 export const env = envParsed.data;
-
-if (env.OPENAI_API_KEY === 'MISSING_KEY_MOCK_MODE') {
-  console.warn("\n⚠️  [WARNING] OPENAI_API_KEY is missing! Service is starting in MOCK MODE.");
-  console.warn("💡 Scans will work, but AI analysis will use high-quality fallback data.");
-}
