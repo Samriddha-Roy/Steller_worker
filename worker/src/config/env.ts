@@ -26,9 +26,13 @@ if (!envParsed.success) {
   for (const [field, errors] of Object.entries(fieldErrors)) {
     console.error(`   - ${field}: ${errors?.join(', ')}`);
   }
+
+  // DEBUG: Print all available env keys to see what Render is actually providing
+  const availableKeys = Object.keys(process.env).filter(k => !k.startsWith('npm_') && !k.startsWith('NODE_'));
+  console.log("\n📡 Debug: Available Environment Variable Keys in this process:");
+  console.log(availableKeys.join(', '));
   
-  // For background workers on Render, we want it to fail clearly in logs
-  console.error("\n💡 Tip: Check the 'Environment' tab in your Render Background Worker settings.");
+  console.error("\n💡 Tip: If 'OPENAI_API_KEY' is not in the list above, it is NOT set in Render's 'Environment' tab for this specific service.");
   throw new Error('Invalid environment variables. Service cannot start.');
 }
 
