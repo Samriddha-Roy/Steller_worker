@@ -12,7 +12,15 @@ const envSchema = z.object({
   STELLAR_SECRET_KEY: z.string(),
 });
 
-const envParsed = envSchema.safeParse(process.env);
+// Pre-process env variables to remove literal quotes if they were pasted accidentally (e.g. on Render)
+const cleanEnv = Object.fromEntries(
+  Object.entries(process.env).map(([key, value]) => [
+    key,
+    typeof value === 'string' ? value.replace(/^["']|["']$/g, '').trim() : value
+  ])
+);
+
+const envParsed = envSchema.safeParse(cleanEnv);
 
 if (!envParsed.success) {
   console.error("❌ Invalid environment variables:");
